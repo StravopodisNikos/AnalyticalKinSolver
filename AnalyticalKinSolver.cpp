@@ -17,7 +17,11 @@ AnalyticalJacobians::AnalyticalJacobians() {
 
     // Initialize screw utils
 };
-
+AnalyticalJacobians::AnalyticalJacobians(const std::shared_ptr<RobotParametersBase>& robot_def)
+    : _robot_def(robot_def) {
+    // Other initialization if needed
+}
+/*
 AnalyticalJacobians::AnalyticalJacobians(const Structure2Pseudos& robot_def) : _robot_def2(robot_def)
 {
 }
@@ -26,20 +30,41 @@ AnalyticalJacobians::AnalyticalJacobians(const Structure3Pseudos& robot_def) : _
 }
 AnalyticalJacobians::AnalyticalJacobians(const Structure4Pseudos& robot_def) : _robot_def4(robot_def)
 {
-}
+} */
 AnalyticalJacobians::~AnalyticalJacobians()
 {
 }
 
 void AnalyticalJacobians::SpatialJacobian(float *q) {
+    /*
     // 1st column
     _Jsp.col(0) = _robot_def2.active_twists[0];
     // 2nd column
-    _exp = screws_utils_ns::twistExp(_robot_def2.active_twists[0], *(q+0) ); // update tf due to previous active joint rot (Joint 1)
-    screws_utils_ns::ad(_ad, _exp); // update adjoint tf
+    _exp = twistExp(_robot_def2.active_twists[0], *(q+0) ); // update tf due to previous active joint rot (Joint 1)
+    ad(_ad, _exp); // update adjoint tf
     _Jsp.col(1) = _ad * _robot_def2.active_twists[1];
     // 3rd column
-    _exp = _exp * screws_utils_ns::twistExp(_robot_def2.active_twists[1], *(q+1) ); // update tf due to previous active joint rot (Joint 1+2)
-    screws_utils_ns::ad(_ad, _exp); // update adjoint tf
+    _exp = _exp * twistExp(_robot_def2.active_twists[1], *(q+1) ); // update tf due to previous active joint rot (Joint 1+2)
+    ad(_ad, _exp); // update adjoint tf
     _Jsp.col(2) = _ad * _robot_def2.active_twists[2];
+    */
+
+}
+
+void AnalyticalJacobians::BodyJacobian(float *q) {
+    // 1st column
+    //_exp = twistExp(_robot_def2.active_twists[0], *(q+0) ) * twistExp(_robot_def2.active_twists[1], *(q+1) ) * twistExp(_robot_def2.active_twists[2], *(q+2) ) * _robot_def2.gst0;
+}
+
+void AnalyticalJacobians::PrintJacobian(Stream& serialPort, char jacobian_char_id) {
+    switch (jacobian_char_id)
+    {
+    case 's':
+        //printMatrix(_Jsp);
+        break;
+    
+    default:
+        break;
+    }
+    
 }
