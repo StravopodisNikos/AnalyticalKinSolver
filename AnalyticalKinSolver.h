@@ -4,8 +4,8 @@
 #include "Arduino.h"
 #include <memory>
 //#include <robot_analytical_kinematics/anthropomorphic_robot.h>
-#include "screws4robotics.h"
-#include <robots_def/smm/example_smm2.h>
+#include "screws4robotics.h"                      // Basic screw theory utilities
+#include <robots_def/smm/example_smm2.h>          // Polymorphism magic
 #include <robots_def/smm/loaded_robot_settings.h> // this may be moved to another folder
 
 namespace kinematics_ns {
@@ -29,6 +29,7 @@ namespace kinematics_ns {
         uint8_t _dof;
 
         // Screw utils 
+        Eigen::Isometry3f _Pi[DOF-1];
         Eigen::Isometry3f _exp; // saves current 4x4 twist exponential matrix
         Eigen::Matrix<float, 6, 6> _ad;  // saves current 6x6 adjoint matrix
         Eigen::Matrix<float, 6, DOF> _Jsp;
@@ -37,12 +38,11 @@ namespace kinematics_ns {
 
     public:
         AnalyticalJacobians();
-        //AnalyticalJacobians(const Structure2Pseudos& robot_def);
-        //AnalyticalJacobians(const Structure3Pseudos& robot_def);
-        //AnalyticalJacobians(const Structure4Pseudos& robot_def);
         AnalyticalJacobians(const std::shared_ptr<RobotParametersBase>& robot_def);
 
         ~AnalyticalJacobians();
+
+        void PseudoTfs();
 
         void SpatialJacobian(float *q); // eq.3.54, A Mathematical Introduction to robotic Manipulation Book
         void BodyJacobian(float *q);
