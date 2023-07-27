@@ -1,2 +1,2 @@
-#define SMM_PSEUDOS 2
-#define DOF         3
+#define STRUCTURE_PSEUDOS 2
+#define DOF               3
